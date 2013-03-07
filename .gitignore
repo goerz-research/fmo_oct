@@ -1,0 +1,6 @@
+*.o
+*.mod
+fmo_oct
+fmo_prop
+fmo_write_pulses
+VERSION.fi
