@@ -25,8 +25,14 @@ program fmo_prop
 
   call init(para, grid=grid, pulses=pulses)
   call init_ham(ham_x, grid, pulses, para, system='ham_x')
+  call load_dissipator(ham_x, join_path(rf, 'dissipator-real'), &
+  &                           join_path(rf, 'dissipator-imag'))
   call init_ham(ham_y, grid, pulses, para, system='ham_y')
+  call load_dissipator(ham_y, join_path(rf, 'dissipator-real'), &
+  &                           join_path(rf, 'dissipator-imag'))
   call init_ham(ham_z, grid, pulses, para, system='ham_z')
+  call load_dissipator(ham_z, join_path(rf, 'dissipator-real'), &
+  &                           join_path(rf, 'dissipator-imag'))
   call init_psi(rho_in, grid, nsurf=8, spindim=1, para=para, system='rho_in')
   call init_psi(rho_tgt, grid, nsurf=8, spindim=1, para=para, system='rho_tgt')
   call psi_to_rho(rho_in)
@@ -60,6 +66,8 @@ program fmo_prop
     call init_prop(targets(i)%ham, targets(i)%grid, targets(i)%prop_work,    &
     &              para, pulses, rho=targets(i)%in_liouville_space)
   end do
+  call dump_ascii_prop_work_t(targets(1)%prop_work, &
+  & filename=join_path(rf, 'prop_work.debug'))
   call open_prop_files()
   write (*,'("")')
 

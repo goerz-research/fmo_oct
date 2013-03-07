@@ -23,8 +23,14 @@ program fmo_oct
 
   call init(para, grid=grid, pulses=pulses)
   call init_ham(ham_x, grid, pulses, para, system='ham_x')
+  call load_dissipator(ham_x, join_path(rf, 'dissipator-real'), &
+  &                           join_path(rf, 'dissipator-imag'))
   call init_ham(ham_y, grid, pulses, para, system='ham_y')
+  call load_dissipator(ham_y, join_path(rf, 'dissipator-real'), &
+  &                           join_path(rf, 'dissipator-imag'))
   call init_ham(ham_z, grid, pulses, para, system='ham_z')
+  call load_dissipator(ham_z, join_path(rf, 'dissipator-real'), &
+  &                           join_path(rf, 'dissipator-imag'))
   call init_psi(rho_in, grid, nsurf=8, spindim=1, para=para, system='rho_in')
   call init_psi(rho_tgt, grid, nsurf=8, spindim=1, para=para, system='rho_tgt')
   call psi_to_rho(rho_in)

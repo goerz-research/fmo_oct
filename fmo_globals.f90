@@ -46,7 +46,39 @@ contains
   end subroutine print_version_info
 
 
-  ! TODO: add any constructors and/or utility functions here
+  !! @description            Add the dissipator as an explicit matrix, stored in
+  !!                         ham%dissipator_matrix
+  !! @param: ham             Hamiltonian for which to load the dissipator
+  !! @param: diss_file_real  Name of file containing the real part of the
+  !!                         dissipator
+  !! @param: diss_file_imag  Name of file containing the imag part of the
+  !!                         dissipator
+  subroutine load_dissipator(ham, diss_file_real, diss_file_imag)
+
+    type(ham_t),      intent(inout) :: ham
+    character(len=*), intent(in)    :: diss_file_real
+    character(len=*), intent(in)    :: diss_file_imag
+
+    integer :: error, n
+    real(idp), allocatable :: dissipator_matrix_real(:,:)
+    real(idp), allocatable :: dissipator_matrix_imag(:,:)
+
+    character(len=error_l) :: routine_name = 'load_dissipator'
+    call add_backtrace(module_name, routine_name)
+
+    call read_ascii_table(dissipator_matrix_real, diss_file_real)
+    call read_ascii_table(dissipator_matrix_imag, diss_file_imag)
+
+    n = size(dissipator_matrix_real(:,1))
+    allocate(ham%dissipator_matrix(n,n), stat=error)
+    call allocerror(module_name, routine_name, error)
+
+    ham%dissipator_matrix = dissipator_matrix_real + ci * dissipator_matrix_imag
+
+    deallocate(dissipator_matrix_real, dissipator_matrix_imag)
+    call del_backtrace()
+
+  end subroutine load_dissipator
 
 
   ! ############################################################################
