@@ -67,24 +67,19 @@ OBJ = fmo_globals.o open_close.o
 %.o: %.f %.for
 	$(FC) $(FFLAGS) -c -o $@ $<
 
-all:  fmo_write_pulses fmo_prop  fmo_oct
+all:  fmo_prop  fmo_oct
 
 install: all
 	mkdir -p $(PREFIX)/bin
-	cp fmo_write_pulses $(PREFIX)/bin/fmo_write_pulses
 	cp fmo_prop $(PREFIX)/bin/fmo_prop
 	cp fmo_oct $(PREFIX)/bin/fmo_oct
 
 uninstall:
-	rm -f $(PREFIX)/bin/fmo_write_pulses
 	rm -f $(PREFIX)/bin/fmo_prop
 	rm -f $(PREFIX)/bin/fmo_oct
 
 precomp:
 	@perl ./fill_version.pl FMO
-
-fmo_write_pulses: precomp $(OBJ) fmo_write_pulses.o
-	$(FC) $(FFLAGS) -o $@ $(OBJ) fmo_write_pulses.o $(LDFLAGS)
 
 fmo_prop: precomp $(OBJ) fmo_prop.o
 	$(FC) $(FFLAGS) -o $@ $(OBJ) fmo_prop.o $(LDFLAGS)
@@ -98,7 +93,6 @@ clean:
 	rm -f *.mod
 	rm -f fmo_prop
 	rm -f fmo_oct
-	rm -f fmo_write_pulses
 	rm -f VERSION.fi
 
 .PHONY: clean
