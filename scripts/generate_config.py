@@ -83,6 +83,8 @@ def main(H_system, dipoles, target_site, rw_freq):
     print dedent("""
     misc: mass = 1.0, base = exp, prop = newton, rk45_abserr = 1.0d-8, &
        rk45_relerr = 1.0d-8
+
+    user_logicals: propagate_guess = F
     """)
 
 
