@@ -105,7 +105,7 @@ contains
 
     type(state_t),     intent(in)    :: rho
     type(grid_t),      intent(in)    :: grid
-    type(ham_t),       intent(in)    :: ham
+    type(ham_t),       intent(inout) :: ham
     integer,           intent(in)    :: ti
     type(prop_work_t), intent(inout) :: work
     type(para_t),      intent(in)    :: para
@@ -142,8 +142,8 @@ contains
   subroutine write_oct_iteration(iter, oct_info, targets, fw_states_T,         &
   & pulses0, pulses1, para)
 
-    use def_mod
-    use global_mod
+    use qdyn_def_mod
+    use qdyn_global_mod
     integer,            intent(in)    :: iter
     type(oct_info_t),   intent(inout) :: oct_info
     type(oct_target_t), intent(in)    :: targets(:)
